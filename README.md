@@ -12,8 +12,9 @@ An example of a data scan for temperature logging is shown below:
 
 The corresponding output in the log window is:
 
-_03/20/2023 14:41:08 DS18B20 Temperature = 15.6 BMP280 Temperature = 15
-20.03.2023 14:41:18 DS18B20 Temperature = 15.6 BMP280 Temperature = 15_
+_20.03.2023 14:41:08 DS18B20 Temperature = 15.6 BMP280 Temperature = 15_
+
+_20.03.2023 14:41:18 DS18B20 Temperature = 15.6 BMP280 Temperature = 15_
 
 At the same time, ScanIt writes the log data to a file in CSV format. Each entry is separated by a tab. This makes it easy to import the file into **LibreOffice-Calc** or **Excel**.
 
