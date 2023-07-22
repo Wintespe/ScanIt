@@ -43,6 +43,7 @@ ScanIt specific commands are not sent directly. They are interpreted and special
 |  @&#173;delay           |  Delay inserted between commands                   |
 |  @&#173;echo            |  Turns the command echo from batch on or off       |
 |  @&#173;edit            |  Edit batch file                                   |
+|  @&#173;rem             |  Output a comment                                  |
 |  @&#173;saveparameter   |  Save parameter on exit                            |
 |  @&#173;shutdown        |  Exits ScanIt                                      |
 |  @&#173;wait            |  Waits H:M:S between commands                      |
