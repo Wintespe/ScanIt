@@ -1,6 +1,9 @@
-# ScanIt, ad hoc sensor data acquisition for Tasmota controlled devices
+# ScanIt, ad hoc sensor data acquisition and control for Tasmota related devices
 
-ScanIt is a Windows application for ad hoc acquisition of sensor data for Tasmota based devices. ScanIt provides a graphical user interface for this purpose. It does not communicate with Tasmota via MQTT, it uses the HTTP interface. No other software tools like Influxdb or Prometheus are required. ScanIt communicates autonomously with Tasmota via the WEB interface.
+
+ScanIt is a Windows application for ad hoc acquisition of data from Tasmota controlled devices. ScanIt provides a graphical user interface for this purpose. It does not communicate with Tasmota via MQTT, it uses the HTTP interface. Alternatively, the serial COM port can be used. No other software tools like Influxdb or Prometheus are required. ScanIt communicates autonomously with Tasmota via the HTTP or COM interface.
+
+ScanIt also includes a console environment. This can be used to control your device  directly. A text file can be included here to control and automate the process. This is very useful for setting up your application, especially via the serial port.
 
 The ScanIt application uses the DotNet framework on Windows. This makes it easy to port it to Linux. Design and development refer to the VisualStudio 2022 Community Edition. This IDE is free of charge. ScanIt consists of two main parts: **Logging** and **Console**.
 
@@ -12,7 +15,7 @@ An example of a data scan for temperature logging is shown below:
 
 The corresponding output in the log window is:
 
-_20.03.2023 14:41:08 DS18B20 Temperature = 15.6 BMP280 Temperature = 15_
+_20.03.2023  14:41:08 DS18B20 Temperature = 15.6 BMP280 Temperature = 15_
 
 _20.03.2023 14:41:18 DS18B20 Temperature = 15.6 BMP280 Temperature = 15_
 
@@ -26,47 +29,53 @@ The following diagram was created from a temperature measurement using LibreOffi
 ![image](https://user-images.githubusercontent.com/121858068/233852035-db47b8b7-1104-4104-a1ed-6e0c9ffda588.png)
 
 
-
-
 # Console part
 The **Console** may be used for direct communication between the user and the Tasmota firmware. For example, to change the setpoint, when a temperature control is acquired. 
 
+A text file can be included to control and automate the process. This is very useful for setting up your application, especially via the serial port.
 
-ScanIt specific commands are not sent directly. They are interpreted and specially processed by the console. These commands begin with the "@" character. The following table provides a brief overview of:
+ScanIt specific commands are not sent directly. They are interpreted and specially processed by the console. These commands begin with the "@" character. The following table provides a brief overview.
 
 &#173;
 
-| Command                 | Brief Description                                  |
-|-------------------------|----------------------------------------------------|
-|  **Batch related**      | |
-|  @&#173;batch           |  Execute commands from a text file                 |
-|  @&#173;delay           |  Delay inserted between commands                   |
-|  @&#173;echo            |  Turns the command echo from batch on or off       |
-|  @&#173;edit            |  Edit batch file                                   |
-|  @&#173;rem             |  Output a comment                                  |
-|  @&#173;saveparameter   |  Save parameter on exit                            |
-|  @&#173;shutdown        |  Exits ScanIt                                      |
-|  @&#173;wait            |  Waits H:M:S between commands                      |
+| Command                | Brief Description                                               |
+|------------------------|-----------------------------------------------------------------|
+| **Batch related**      ||
+| @&#173;batch           |  Execute commands from a text file                              |
+| @&#173;delay           |  Delay inserted between commands                                |
+| @&#173;echo            |  Turns the command echo from batch on or off                    |
+| @&#173;edit            |  Edit batch file                                                |
+| @&#173;saveparameter   |  Save parameter on exit                                         |
+| @&#173;shutdown        |  Exits ScanIt                                                   |
+| @&#173;wait            |  Waits H:M:S between commands                                   |
+| @&#173;rem             |  Output a comment                                               |
 ||
 | **Tasmota related** ||
-|  @&#173;driver          |  Active drivers                                    |
-|  @&#173;feature         |  Active features                                   |
-|  @&#173;gpio            |  Active GPIOs                                      |
-|  @&#173;gpioa           |  All GPIOs                                         |
-|  @&#173;i2c             |  I2c drivers                                       |
-|  @&#173;option          |  Option settings                                   |
-|  @&#173;optiona         |  All option settings                               |
-|  @&#173;sensor          |  Active sensors                                    |
-|  @&#173;status          |  Status from 1 to 11                               |
+| @&#173;driver          |  Active drivers                                                 |
+| @&#173;feature         |  Active features                                                |
+| @&#173;gpio            |  Active GPIOs                                                   |
+| @&#173;gpioa           |  All GPIOs                                                      |
+| @&#173;i2c             |  I2c drivers                                                    |
+| @&#173;option          |  Option settings                                                |
+| @&#173;optiona         |  All option settings                                            |
+| @&#173;sensor          |  Active sensors                                                 |
+| @&#173;status          |  Status from 1 to 11                                            |
 ||
 |  **Main Window related** ||
-|  @&#173;append          |  Append the data to the log file                   |
-|  @&#173;scan            |  Scans to be executed in the main window           |
-|  @&#173;interval        |  Set the interval time in the main window          |
-|  @&#173;ip-address      |  IP address of the hardware                        |
-|  @&#173;logfile         |  Set the filename for the log file                 |
-|  @&#173;execute         |  Starts a scan with the parameters set             |
-|  @&#173;show            |  Display data sets in the main window              |
+| @&#173;append          |  Append the data to the log file                                |
+| @&#173;execution       |  Starts a scan with the parameters set                          |
+| @&#173;interval        |  Set the interval time in the main window                       |
+| @&#173;ip-address      |  IP address of the hardware                                     |
+| @&#173;logfile         |  Set the filename for the log file                              |
+| @&#173;scan            |  Scans to be executed in the main window                        |
+| @&#173;show            |  Display data sets in the main window                           |
+||
+| **COM related** ||
+| @&#173;com             |  List all the serial ports on the computer                      |
+| @&#173;cominfo         |  List the properties of all the serial ports on your computer   |
+| @&#173;comconfig       |  List / set the configuration of the serial port                |
+
+&#173;
 
 **Example:**
 
@@ -81,7 +90,7 @@ Bit 23 = USE_PID
 ...
 ```
 
-Command sequences from a text file can be executed with **@&#173;Batch**.
+A command sequences from a text file can be executed with **@&#173;Batch**
 
 ```
 <BatchID>
@@ -97,13 +106,13 @@ PidSp 25
 @Execution Stop
 ```
 
-# Command line interface
+# Windows command line interface
 
 ScanIt has a Windows command line interface. This can be used to activate a batch file e.g. time-controlled by the Windows Task Scheduler. This feature allows an automated collection of data without further user intervention.
 
 A Windows command line might look like this:
 
-C:\ScanIt\ScanIt.exe  Batch:C:\ScanIt\Batch.txt
+**C:\ScanIt\ScanIt.exe  Batch:C:\ScanIt\Batch.txt**
 
 
 **Batch Example:**
