@@ -71,7 +71,7 @@ ScanIt specific commands are not sent directly. They are interpreted and special
 | @&#173;show            |  Display data sets in the main window                           |
 ||
 | **COM related** ||
-| @&#173;com             |  List all the serial ports on the computer                      |
+| @&#173;com             |  List all the serial ports on your computer                      |
 | @&#173;cominfo         |  List the properties of all the serial ports on your computer   |
 | @&#173;comconfig       |  List / set the configuration of the serial port                |
 
